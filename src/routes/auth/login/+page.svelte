@@ -5,7 +5,7 @@
 	let password = '';
 
 	function handleSubmit() {
-		signIn('credentials', { email, password, callbackUrl: "/" });
+		signIn('credentials', { email, password, callbackUrl: '/' });
 	}
 </script>
 
@@ -17,9 +17,18 @@
 		</label>
 		<label>
 			Password
-			<input name="password" type="password" autocomplete="current-password" bind:value={password} />
+			<input
+				name="password"
+				type="password"
+				autocomplete="current-password"
+				bind:value={password}
+			/>
 		</label>
 		<button>Log in</button>
+		<div class="links">
+			<a href="/auth/remind" class="secondary">Remind Password</a>
+			<a href="/auth/signup" class="secondary">Sign up</a>
+		</div>
 	</form>
 </div>
 
@@ -29,9 +38,18 @@
 		place-items: center;
 	}
 
+	.links {
+		display: flex;
+		justify-content: space-between;
+	}
+
 	form {
 		display: grid;
-		gap: 0.5rem;
 		padding: 1rem;
+	}
+
+	a {
+		text-align: center;
+		margin-top: 1rem;
 	}
 </style>

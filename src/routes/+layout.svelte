@@ -9,4 +9,9 @@
 	:global(body) {
 		padding-inline: 1rem;
 	}
+
+    :global(:root) {
+        --pico-font-size: 17px;
+        --pico-line-height: 1;
+    }
 </style>

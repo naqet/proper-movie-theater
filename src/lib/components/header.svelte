@@ -31,7 +31,7 @@
 								<a href="/settings">Settings</a>
 							</li>
 							<li>
-								<button on:click={() => signOut()}>Log out</button>
+								<a href="" on:click={() => signOut()}>Log out</a>
 							</li>
 						</ul>
 					</details>
