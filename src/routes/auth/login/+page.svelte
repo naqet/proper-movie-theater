@@ -5,7 +5,7 @@
 	let password = '';
 
 	function handleSubmit() {
-		signIn('credentials', { email, password, callbackUrl: '/' });
+		signIn('credentials', { email, password, callbackUrl: "/"});
 	}
 </script>
 

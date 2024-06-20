@@ -4,7 +4,7 @@ import type { Actions } from "./$types"
 import * as v from "valibot";
 import { db } from "../../../db";
 import { users } from "../../../db/schema";
-import { genSalt, hash } from "bcrypt"
+import { saltAndHash } from "$lib/utils/password";
 
 const signUpSchema = v.object({
     name: v.pipe(v.string(), v.nonEmpty()),
@@ -21,8 +21,7 @@ export const actions = {
                 return fail(400, { message: "Invalid data" })
             }
 
-            const salt = await genSalt(10)
-            const password = await hash(result.output.password, salt)
+            const password = saltAndHash(result.output.password)
 
             const { name, email } = result.output;
 
