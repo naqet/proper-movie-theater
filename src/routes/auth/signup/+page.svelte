@@ -1,18 +1,21 @@
 <script lang="ts">
-	import { enhance} from '$app/forms';
-    import type {SubmitFunction} from "@sveltejs/kit"
-	let err = '';
+	import { enhance } from '$app/forms';
+	import type { ActionData } from './$types';
+	import type { SubmitFunction } from '@sveltejs/kit';
+
+	let samePasswords = true;
 
 	const handleSubmit: SubmitFunction = ({ formData, cancel }) => {
-        const {password, confirmPassword} = Object.fromEntries(formData)
+		const { password, confirmPassword } = Object.fromEntries(formData);
 
-        if (password !== confirmPassword) {
-            err = "Passwords are not the same"
-            cancel()
-            return
-        }
-    }
+		if (password !== confirmPassword) {
+            samePasswords = false
+			cancel();
+			return;
+		}
+	};
 
+	export let form: ActionData;
 </script>
 
 <div class="container">
@@ -23,7 +26,17 @@
 		</label>
 		<label>
 			Email
-			<input required name="email" type="email" autocomplete="email" />
+			<input
+				required
+				name="email"
+				type="email"
+				autocomplete="email"
+				aria-invalid={form?.emailDuplicate}
+				aria-describedby={form?.emailDuplicate ? 'email-duplicate' : null}
+			/>
+			{#if form?.emailDuplicate}
+				<small id="email-duplicate">Account with this email already exists</small>
+			{/if}
 		</label>
 		<label>
 			Password
@@ -31,34 +44,41 @@
 		</label>
 		<label>
 			Confirm Password
-			<input required name="confirmPassword" type="password" />
+			<input
+				required
+				name="confirmPassword"
+				type="password"
+                aria-invalid={!samePasswords ? true : null}
+				aria-describedby={!samePasswords ? 'invalid-passwords' : null}
+			/>
+			{#if !samePasswords}
+				<small id="invalid-passwords">Passwords don't match</small>
+			{/if}
 		</label>
 		<button>Sign up</button>
 		<a href="/auth/login" class="secondary">Log in</a>
-		{#if err}
-			<p class="outline">{err}</p>
-		{/if}
 	</form>
 </div>
 
 <style>
 	.container {
+        position: absolute;
+        top: 50%;
+        right: 50%;
+        transform: translate(50%, -50%);
 		display: grid;
 		place-items: center;
+        margin-inline: auto;
+        padding: 0;
 	}
 
 	form {
 		display: grid;
-		padding: 1rem;
 	}
 
 	a {
 		text-align: center;
 		margin-top: 1rem;
-	}
-
-	p {
-		margin-top: 1rem;
-		color: salmon;
+		margin-inline: auto;
 	}
 </style>
